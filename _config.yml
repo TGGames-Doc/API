@@ -62,5 +62,5 @@ defaults:
       lang: zh
 
 baseurl: "/doc"
-# 确保 permalink 支持多级
+
 permalink: pretty
