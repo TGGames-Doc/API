@@ -1,19 +1,43 @@
-{% assign current_lang = include.lang | default: page.lang | default: site.default_lang %}
-
-{% if current_lang == 'zh' %}
-  {% assign target_lang = 'en' %}
+{%- comment -%} 当前 & 目标语言 {%- endcomment -%}
+{% assign cur_lang = page.lang | downcase %}
+{% if cur_lang == 'zh' %}
+  {% assign tgt_lang = 'en' %}
 {% else %}
-  {% assign target_lang = 'zh' %}
+  {% assign tgt_lang = 'zh' %}
 {% endif %}
 
-{%- assign path_without_lang = page.url | remove_first: '/zh' | remove_first: '/en' -% %}
+{%- comment -%}
+  1️⃣ 去掉开头的语言前缀，得到 path_without_lang  
+     例：/zh/pubinteface_zh/containers/ → pubinteface_zh/containers/
+{%- endcomment -%}
+{% if cur_lang == 'zh' %}
+  {% assign path_without_lang = page.url | remove_first: '/zh/' %}
+{% else %}
+  {% assign path_without_lang = page.url | remove_first: '/en/' %}
+{% endif %}
+
+{%- comment -%}
+  2️⃣ 把集合名替换成目标语言版本
+{%- endcomment -%}
+{% assign new_path = path_without_lang %}
+
+{% if cur_lang == 'zh' %}
+  {% assign new_path = new_path
+    | replace_first: 'pubinteface_zh', 'pubinteface_en'
+    | replace_first: 'seamless_zh',    'seamless_en' %}
+{% else %}
+  {% assign new_path = new_path
+    | replace_first: 'pubinteface_en', 'pubinteface_zh'
+    | replace_first: 'seamless_en',    'seamless_zh' %}
+{% endif %}
+
+{%- comment -%}
+  3️⃣ 组装最终链接，加上目标语言前缀 & baseurl
+{%- endcomment -%}
+{% assign target_url = '/' | append: tgt_lang | append: '/' | append: new_path | relative_url %}
 
 <nav class="lang-switcher">
-  <a href="{{ '/' | append: target_lang | append: path_without_lang | relative_url }}">
-    {% if current_lang == 'zh' %}
-      Switch to English
-    {% else %}
-      切换至中文
-    {% endif %}
+  <a href="{{ target_url }}">
+    {% if cur_lang == 'zh' %}Switch&nbsp;to&nbsp;English{% else %}切换至中文{% endif %}
   </a>
 </nav>

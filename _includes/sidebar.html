@@ -1,6 +1,26 @@
 {% assign lang = include.lang | default: page.lang | default: 'zh' %}
 {% assign active = page.url | downcase | split: '/' %}
+{%- assign segments = page.url | split:'/' -%}
 
+{%- comment -%}
+  找到集合索引 coll_i：
+  第一个既不是空、也不是 baseurl(API)、也不是语言(en/zh) 的段
+{%- endcomment -%}
+{% assign base = site.baseurl | remove_first:'/' %}
+{% assign langs = 'en,zh' | split:',' %}
+{% assign coll_i = nil %}
+
+{% for s in segments %}
+  {% unless s == '' or s == base or langs contains s %}
+    {% assign coll_i = forloop.index0 %}
+    {% break %}
+  {% endunless %}
+{% endfor %}
+
+{%- comment -%}
+  slug_i = coll_i + 1
+{%- endcomment -%}
+{% assign slug_i = coll_i | plus: 1 %}
 <div class="sidebar">
 
   <span class="menu-icon">
@@ -29,41 +49,50 @@
     </a></li>
 
     <li class="collapsible">
-      <input type="checkbox" id="toggle-pubinteface" hidden {% if active[3] == 'pubinteface' %}checked{% endif %}>
+      {%- assign collection_name = 'pubinteface_' | append: page.lang -%}
+      {%- assign pubdocs = site[collection_name] | sort:'title' -%}
+      <input type="checkbox" id="toggle-pubinteface"
+      {% if segments[coll_i] contains 'pubinteface' %}
+        checked="checked"
+      {% endif %}
+      hidden="hidden">
+    
       <label for="toggle-pubinteface" class="collapsible-label">
-        {% if lang == 'zh' %}公共接口{% else %}Public Interfaces{% endif %}
+        {%- if page.lang == 'zh' -%}公共接口{%- else -%}Public&nbsp;Interfaces{%- endif -%}
       </label>
+    
       <ul class="submenu">
-        {% assign collection_name = 'pubinteface_' | append: lang %}
-        {% assign pubdocs = site[collection_name] | sort: "title" %}
-        {% for doc in pubdocs %}
+        {%- for doc in pubdocs -%}
           <li>
-            <a href="{{ doc.url | relative_url }}" {% if doc.url == page.url %}class="active"{% endif %}>
+            <a href="{{ doc.url | relative_url }}"
+               {%- if segments[slug_i] == doc.slug -%}class="active"{%- endif -%}>
               {{ doc.title }}
             </a>
           </li>
-        {% endfor %}
+        {%- endfor -%}
       </ul>
     </li>
     
     <li class="collapsible">
-      <input type="checkbox" id="toggle-seamless" hidden {% if active[3] == 'seamless' %}checked{% endif %}>
+      {% assign collection_name = 'seamless_' | append: page.lang %}
+      {% assign seamlessdocs = site[collection_name] | sort: "title" %}
+      <input type="checkbox" id="toggle-seamless"
+       {% if segments[coll_i] contains 'seamless' %}
+         checked="checked"
+       {% endif %}
+       hidden="hidden">
       <label for="toggle-seamless" class="collapsible-label">
         {% if lang == 'zh' %}单一钱包{% else %}Seamless Wallet{% endif %}
       </label>
       <ul class="submenu">
-        {% assign collection_name = 'seamless_' | append: lang %}
-        {% assign seamlessdocs = site[collection_name] | sort: "title" %}
         {% for doc in seamlessdocs %}
-          <li>
-            <a href="{{ doc.url | relative_url }}" {% if doc.url == page.url %}class="active"{% endif %}>
-              {{ doc.title }}
-            </a>
-          </li>
+        <li><a href="{{ doc.url | relative_url }}"
+          {% if segments[slug_i] == doc.slug %}class="active"{% endif %}>
+        {{ doc.title }}
+        </a></li>
         {% endfor %}
       </ul>
     </li>
-
     <li><a href="{{ '/' | append: lang | append: '/transfer' | relative_url }}" {% if active[2] == 'transfer' %}class="active"{% endif %}>
       {% if lang == 'zh' %}转账钱包{% else %}Transfer Wallet{% endif %}
     </a></li>
