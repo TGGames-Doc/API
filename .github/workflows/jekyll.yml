@@ -1,40 +1,32 @@
 name: Build & Deploy Jekyll Site
-on: { push: { branches: [ main ] } }
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+on:
+  push:
+    branches: [main]
 
 jobs:
-  build:
+  jekyll:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ruby/setup-ruby@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - run: bundle lock --add-platform x86_64-linux
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
 
       - name: Build Jekyll site
-        env: { JEKYLL_ENV: production }
-        run: bundle exec jekyll build -d _site
+        run: JEKYLL_ENV=production bundle exec jekyll build
 
-      - name: Upload _site artifact
-        uses: actions/upload-artifact@v4       # 手动上传
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: github-pages
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - id: deploy
-        uses: actions/deploy-pages@v2          # 官方 Pages 部署
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages
