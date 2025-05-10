@@ -1,50 +1,33 @@
 name: Build & Deploy Jekyll Site
+on: { push: { branches: [ main ] } }
 
-on:
-  push:
-    branches: [ main ]
-
-# Pages 官方 Action 需要的权限
 permissions:
-  contents: read      # checkout 源码
-  pages: write        # 发布 Pages
-  id-token: write     # 部署令牌
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    # 1️⃣ 取代码
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # 2️⃣ 安装 Ruby（自动 bundle install + 缓存）
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.1'
-        bundler-cache: true
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
 
-    # 3️⃣ 补登记 Linux 平台，避免 “only supports mingw” 报错
-    - name: Ensure linux platform in lockfile
-      run: bundle lock --add-platform x86_64-linux
+      - run: bundle lock --add-platform x86_64-linux
 
-    # 如有 Alpine 目标，再加一行：
-    # bundle lock --add-platform x86_64-linux-musl
+      - name: Build Jekyll site
+        env: { JEKYLL_ENV: production }
+        run: bundle exec jekyll build -d _site
 
-    # 4️⃣ 构建 Jekyll
-    - name: Build Jekyll site
-      env:
-        JEKYLL_ENV: production
-      run: bundle exec jekyll build -d _site
-
-    # 5️⃣ 上传构建产物，供后续 deploy job 使用
-    - uses: actions/upload-pages-artifact@v2
-      with:
-        path: _site
+      - name: Upload _site artifact
+        uses: actions/upload-artifact@v4       # 手动上传
+        with:
+          name: github-pages
+          path: _site
 
   deploy:
     needs: build
@@ -52,8 +35,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
-
     steps:
-    - name: Deploy to GitHub Pages
-      id: deploy
-      uses: actions/deploy-pages@v2
+      - id: deploy
+        uses: actions/deploy-pages@v2          # 官方 Pages 部署
