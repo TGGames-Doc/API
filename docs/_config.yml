@@ -1,0 +1,57 @@
+title: TGGames Admin
+description: A TGGames API Document site.
+
+source: docs
+
+baseurl: "/API"
+
+default_lang: zh
+
+collections:
+  pubinteface_zh:
+    output: true
+    directory: zh/_pubinteface
+    permalink: /zh/pubinteface/:path/
+
+  seamless_zh:
+    output: true
+    directory: zh/_seamless
+    permalink: /zh/seamless/:path/
+
+  pubinteface_en:
+    output: true
+    directory: en/_pubinteface
+    permalink: /en/pubinteface/:path/
+
+  seamless_en:
+    output: true
+    directory: en/_seamless
+    permalink: /en/seamless/:path/
+
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
+markdown: kramdown
+
+# 💡 默认布局
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "page"
+  - scope:
+      path: "zh"
+    values:
+      lang: "zh"
+  - scope:
+      path: "en"
+    values:
+      lang: "en"
+# 确保 permalink 支持多级
+permalink: pretty

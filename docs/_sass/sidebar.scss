@@ -1,0 +1,93 @@
+.sidebar{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: $sidebar-width;
+  overflow-y: auto;
+  min-height: 100%;
+  background-color: #333;
+  @media(max-width: 768px) {
+    position: static;
+    width: 100%;
+    .menu-icon {
+      display: block !important;
+    }
+  }
+  .menu-icon {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    padding: 15px;
+    display: none;
+    z-index: 100;
+  }
+  .logo {
+    display: block;
+    height: 60px;
+    background: #222222 url('assets/images/logo.png') no-repeat center;
+    background-size: 92px 60px;
+    &:hover {
+      -webkit-filter: brightness(1.2);
+      filter: brightness(1.2);
+    }
+  }
+  .routes {
+    padding: 10px 0;
+    list-style: none;
+    @media(max-width: 768px) {
+      width: 100%;
+      display: none;
+    }
+    &.open {
+      display: inline-block !important;
+    }
+    li {
+      a {
+        display: block;
+        padding: 8px 20px;
+        font-size: 13px;
+        color: #beb9b1;
+        &:hover, &.active {
+          color: $dark-orange;
+        }
+      }
+    }
+  }
+  /* 控制 submenu 折叠展开 */
+  .collapsible .submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding-left: 16px;
+  }
+
+  .collapsible input[type="checkbox"]:checked ~ .submenu {
+    max-height: 500px; /* 足够显示内容即可 */
+  }
+
+  /* 可点击的 label 替代了原来的 <a> */
+  .collapsible-label {
+    display: block;
+    cursor: pointer;
+    padding: 8px 20px;
+    background: #333;
+    color: #beb9b1;
+    font-size: 13px;
+    position: relative;
+  }
+
+  .collapsible-label::after {
+    content: "▶";
+    color: white;
+    background-color: #333;
+    font-size: 13px;          /* ← 设置图标大小 */
+    position: absolute;
+    right: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .collapsible input[type="checkbox"]:checked + .collapsible-label::after {
+    transform: rotate(90deg);
+  }
+}

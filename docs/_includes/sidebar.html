@@ -1,0 +1,89 @@
+{% assign lang = include.lang | default: page.lang | default: 'zh' %}
+{% assign active = page.url | downcase | split: '/' %}
+
+<div class="sidebar">
+
+  <span class="menu-icon">
+    <svg viewBox="0 0 18 15" width="24px" height="20px">
+      <path fill="#fff" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+      <path fill="#fff" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+      <path fill="#fff" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+    </svg>
+  </span>
+
+  <a class="logo" href="{{ '/' | relative_url }}"></a>
+  
+  <ul class="routes">
+    <li><a href="{{ '/' | append: lang | append: '/index' | relative_url }}" {% if active[2] == 'index' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}首页{% else %}Home{% endif %}
+    </a></li>
+
+    <div class="splitter"></div>
+
+    <li><a href="{{ '/' | append: lang | append: '/public' | relative_url }}" {% if active[2] == 'public' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}公共说明{% else %}Public{% endif %}
+    </a></li>
+
+    <li><a href="{{ '/' | append: lang | append: '/mbasepro' | relative_url }}" {% if active[2] == 'mbasepro' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}货币基础单位与处理{% else %}Currency Basics{% endif %}
+    </a></li>
+
+    <li class="collapsible">
+      <input type="checkbox" id="toggle-pubinteface" hidden {% if active[3] == 'pubinteface' %}checked{% endif %}>
+      <label for="toggle-pubinteface" class="collapsible-label">
+        {% if lang == 'zh' %}公共接口{% else %}Public Interfaces{% endif %}
+      </label>
+      <ul class="submenu">
+        {% assign collection_name = 'pubinteface_' | append: lang %}
+        {% assign pubdocs = site[collection_name] | sort: "title" %}
+        {% for doc in pubdocs %}
+          <li>
+            <a href="{{ doc.url | relative_url }}" {% if doc.url == page.url %}class="active"{% endif %}>
+              {{ doc.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+    
+    <li class="collapsible">
+      <input type="checkbox" id="toggle-seamless" hidden {% if active[3] == 'seamless' %}checked{% endif %}>
+      <label for="toggle-seamless" class="collapsible-label">
+        {% if lang == 'zh' %}单一钱包{% else %}Seamless Wallet{% endif %}
+      </label>
+      <ul class="submenu">
+        {% assign collection_name = 'seamless_' | append: lang %}
+        {% assign seamlessdocs = site[collection_name] | sort: "title" %}
+        {% for doc in seamlessdocs %}
+          <li>
+            <a href="{{ doc.url | relative_url }}" {% if doc.url == page.url %}class="active"{% endif %}>
+              {{ doc.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </li>
+
+    <li><a href="{{ '/' | append: lang | append: '/transfer' | relative_url }}" {% if active[2] == 'transfer' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}转账钱包{% else %}Transfer Wallet{% endif %}
+    </a></li>
+
+    <li><a href="{{ '/' | append: lang | append: '/report' | relative_url }}" {% if active[2] == 'report' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}报表相关{% else %}Reports{% endif %}
+    </a></li>
+
+    <li><a href="{{ '/' | append: lang | append: '/function' | relative_url }}" {% if active[2] == 'function' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}功能相关{% else %}Functions{% endif %}
+    </a></li>
+
+    <div class="splitter"></div>
+
+    <li><a href="{{ '/' | append: lang | append: '/gamelist' | relative_url }}" {% if active[2] == 'gamelist' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}游戏列表{% else %}Game List{% endif %}
+    </a></li>
+
+    <li><a href="{{ '/' | append: lang | append: '/languages' | relative_url }}" {% if active[2] == 'languages' %}class="active"{% endif %}>
+      {% if lang == 'zh' %}支持语言与货币{% else %}Languages & Currencies{% endif %}
+    </a></li>
+  </ul>
+</div>

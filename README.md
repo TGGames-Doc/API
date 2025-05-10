@@ -1,2 +1,2 @@
-# API
-TGGames API Document
+# TGGames-Api
+TGGames Api Documents

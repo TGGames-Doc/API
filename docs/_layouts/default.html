@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.default_lang }}">
+  {% include head.html %}
+  <body>
+    <div id="root">
+      <div class="wrapper">
+        {% assign lang = page.lang | default: site.default_lang %}
+        {% include sidebar.html lang=lang %}
+        <div class="container">
+          <div class="header">
+            <h1>TGGames Admin - {{ page.title | escape }}</h1>    
+            <ul class="pull-right">
+              <li>
+                {% include lang-switcher.html lang=lang %}
+              </li>
+            </ul>        
+          </div>
+
+          <div class="content">
+            {{ content }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ 'assets/highlight.min.js' | relative_url }}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+      window.onload = function () {
+        var routes = document.querySelector('.routes')
+        var menuIcon = document.querySelector('.menu-icon')
+        menuIcon.addEventListener("click", function(e) {
+          e.preventDefault()
+          routes.classList.toggle('open')
+        });
+      };
+    </script>
+  </body>
+</html>

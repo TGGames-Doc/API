@@ -1,0 +1,19 @@
+{% assign current_lang = include.lang | default: page.lang | default: site.default_lang %}
+
+{% if current_lang == 'zh' %}
+  {% assign target_lang = 'en' %}
+{% else %}
+  {% assign target_lang = 'zh' %}
+{% endif %}
+
+{%- assign path_without_lang = page.url | remove_first: '/zh' | remove_first: '/en' -% %}
+
+<nav class="lang-switcher">
+  <a href="{{ '/' | append: target_lang | append: path_without_lang | relative_url }}">
+    {% if current_lang == 'zh' %}
+      Switch to English
+    {% else %}
+      切换至中文
+    {% endif %}
+  </a>
+</nav>
