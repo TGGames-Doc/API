@@ -1,8 +1,6 @@
 title: TGGames Admin
 description: A TGGames API Document site.
 
-source: docs
-
 baseurl: "/API"
 
 default_lang: zh
