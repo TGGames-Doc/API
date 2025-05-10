@@ -1,0 +1,2 @@
+# API
+TGGames API Document
