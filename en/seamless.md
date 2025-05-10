@@ -1,5 +1,5 @@
 ---
-title: 单一钱包
+title: Seamless Wallet
 lang: en
 description: >-
   TGGames Admin exists in two parts, a Ruby back end and a Javascript front end. The two halves communicate via ashared API.

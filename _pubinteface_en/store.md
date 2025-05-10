@@ -1,5 +1,5 @@
 ---
-title: 获取游戏登录URL
+title: Get the game login URL
 lang: en
 description: Store is the object that brings actions and reducers together.
 ---

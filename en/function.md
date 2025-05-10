@@ -1,5 +1,5 @@
 ---
-title: 功能相关
+title: Functions
 lang: en
 description: Example configuration files for self-hosting TGGames-Api
 ---

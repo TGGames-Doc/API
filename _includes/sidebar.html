@@ -41,7 +41,7 @@
     <div class="splitter"></div>
 
     <li><a href="{{ '/' | append: lang | append: '/public' | relative_url }}" {% if active[2] == 'public' %}class="active"{% endif %}>
-      {% if lang == 'zh' %}公共说明{% else %}Public{% endif %}
+      {% if lang == 'zh' %}公共说明{% else %}Public Description{% endif %}
     </a></li>
 
     <li><a href="{{ '/' | append: lang | append: '/mbasepro' | relative_url }}" {% if active[2] == 'mbasepro' %}class="active"{% endif %}>

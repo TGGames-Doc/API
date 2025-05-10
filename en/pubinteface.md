@@ -1,5 +1,5 @@
 ---
-title: 公共接口
+title: Public Interfaces
 lang: en
 description: The Javascript-based front end of TGGames Admin, built on the Ruby-based HTTP API.
 ---

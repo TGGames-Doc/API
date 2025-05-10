@@ -1,5 +1,5 @@
 ---
-title: 运营商提供的API
+title: API provided by the operator
 lang: en
 description: Actions are payloads of information that send data from the application to the store.
 ---

@@ -1,5 +1,5 @@
 ---
-title: 报表相关
+title: Reports
 lang: en
 description: Example configuration files for self-hosting TGGames-Api
 ---

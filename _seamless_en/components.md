@@ -1,5 +1,5 @@
 ---
-title: 获取玩家余额
+title: Get player balance
 lang: en
 description: Presentational components.
 ---

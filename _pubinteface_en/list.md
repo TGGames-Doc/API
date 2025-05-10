@@ -1,5 +1,5 @@
 ---
-title: 获取玩家当前未结算的游戏列表
+title: Get the player's current unsettled game list
 lang: en
 description: Store is the object that brings actions and reducers together.
 ---

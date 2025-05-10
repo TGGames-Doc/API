@@ -1,5 +1,5 @@
 ---
-title: 支持语言与货币
+title: SLanguages & Currencies
 lang: en
 description: Example configuration files for self-hosting TGGames-Api
 ---
